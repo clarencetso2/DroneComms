@@ -1,0 +1,152 @@
+
+import numpy as np
+import cv2
+import base64
+import socket    
+import Queue
+import io
+import json
+from Tkinter import *
+import threading
+splitDelimiter="*****"
+endingDelimiter="-----"
+serverAddr='165.227.196.0'
+serverPort=80
+clientIdToReceiveFrom='thermal' #No spaces or this screws up also no split delimiter or ending delimiter
+resizingfactor=1 #If 1 then no scaling will be applied before output
+previousfactor=0
+
+
+
+    
+
+    
+def socketClient():
+
+    s = socket.socket()         
+
+    s.connect((serverAddr, serverPort))
+    return s;
+
+def sendStart(s,str):
+    stringBytes=bytearray(str,'utf-8')
+    stringBytesSize=len(stringBytes)
+    
+    
+    frameBytesSize=0
+        
+    stringLenBytes=(stringBytesSize).to_bytes(4,byteorder='big')
+    frameLenBytes=(frameBytesSize).to_bytes(4,byteorder='big')
+    totalLenBytes=(stringBytesSize+frameBytesSize+8).to_bytes(4,byteorder='big')
+        
+    s.send(totalLenBytes)
+    s.send(stringLenBytes)
+    s.send(frameLenBytes)
+    s.send(stringBytes)
+
+def receiveBytes(s,num):
+        chunks = []
+        bytes_recd = 0
+        while bytes_recd < num:
+            chunk = s.recv(num - bytes_recd)
+            if chunk == b'':
+                raise RuntimeError("socket connection broken")
+            chunks.append(chunk)
+            bytes_recd = bytes_recd + len(chunk)
+            #print(bytes_recd)
+            #print(num)
+
+        return b''.join(chunks)
+
+
+def getNewPacket(s):
+    totalLen=receiveBytes(s, 4)
+    strLen=receiveBytes(s,4)
+    frameLen=receiveBytes(s,4)
+    
+    #print(strLen)
+    totalLen=int.from_bytes(totalLen, byteorder='big')
+    strLen=int.from_bytes(strLen, byteorder='big')
+    frameLen=int.from_bytes(frameLen, byteorder='big')
+    #print(totalLen)
+    strMsg=receiveBytes(s,strLen)
+    #print(strMsg)
+    frameMsg=receiveBytes(s,frameLen)
+    
+    strMsg=strMsg.decode("utf-8")
+    
+    splitAr=strMsg.strip().split()
+    clientId=splitAr[1]
+    rows=int(splitAr[2])
+    cols=int(splitAr[3])
+
+    memfile = io.BytesIO()
+    memfile.write(frameMsg)
+    memfile.seek(0)
+    fil=np.load(memfile)
+    out=cv2.imdecode(fil,cv2.IMREAD_COLOR)
+    return (clientId,rows,cols,out)
+    
+def receiveClient(w,asd):
+    global resizingfactor
+    global previousfactor
+    q = Queue.Queue()
+    
+    s=socketClient()
+    wholeStr=""
+    #print("dad")
+    sendStart(s,"recv " + str(clientIdToReceiveFrom) +" ")
+    #print("Finished")
+    while(True):
+        
+        
+        #print("start")
+        #print("before")
+        clientId,rows,cols,frame=getNewPacket(s)
+        #print("after")
+            
+  
+                
+                
+
+        
+
+        resizingfactor=w.get()
+
+              
+        if(int(resizingfactor)!=int(previousfactor)):
+           cv2.destroyAllWindows()
+        previousfactor=resizingfactor
+        dim=(cols*int(resizingfactor),rows*int(resizingfactor))
+        frame = cv2.resize(frame, dim, interpolation = cv2.INTER_CUBIC)    
+              
+        
+        cv2.imshow(clientIdToReceiveFrom, frame) 
+        
+        cv2.waitKey(1)
+        
+
+        
+    
+    
+
+    
+    # When everything done, release the capture
+    
+    cv2.destroyAllWindows()
+    s.close()
+    
+def tinker():
+    master=Tk()
+    master.title("In Resize: "+ str(clientIdToReceiveFrom))
+    master.minsize(400, 50)
+   
+    w = Scale(master, from_=1, to=4,length=350,orient=HORIZONTAL)
+    w.set(resizingfactor)
+    w.pack()
+    
+    t = threading.Thread(target=receiveClient,args=(w,None))
+    t.daemon = True
+    t.start()
+    mainloop()
+tinker()

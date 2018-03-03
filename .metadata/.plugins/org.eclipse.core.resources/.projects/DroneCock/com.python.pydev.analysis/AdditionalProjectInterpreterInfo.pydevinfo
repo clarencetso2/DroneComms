@@ -1,0 +1,45 @@
+-- VERSION_4
+-- START DISKCACHE_2
+C:\DroneShit\.metadata\.plugins\org.eclipse.core.resources\.projects\DroneCock\com.python.pydev.analysis\v2_indexcache
+ClientThermalUpdate|1519681064720963000|C:\DroneShit\DroneCock\ClientThermalUpdate.py
+Backup|1518143059438083000|C:\DroneShit\DroneCock\Backup.py
+ClientThermal|1519414431946529000|C:\DroneShit\DroneCock\ClientThermal.py
+ClientThermalRecv|1519414431950532000|C:\DroneShit\DroneCock\ClientThermalRecv.py
+ClientThermalRecvUpdate|1519681180352464000|C:\DroneShit\DroneCock\ClientThermalRecvUpdate.py
+Webcam|1519414431941526000|C:\DroneShit\DroneCock\Webcam.py
+Client|1518154212584232000|C:\DroneShit\DroneCock\Client.py
+-- END DISKCACHE
+-- START DICTIONARY
+7
+7=ClientThermalUpdate
+2=Backup
+3=ClientThermalRecv
+5=ClientThermal
+6=ClientThermalRecvUpdate
+1=Webcam
+4=Client
+-- END DICTIONARY
+-- START TREE 1
+18
+cap|2|cap!11@cap!19@
+cli|5|clientId!27@clientId!35@clientId!43@clientIdToReceiveFrom!51@clientId!59@
+com|1|compression!59@
+dim|1|dim!19@
+end|4|endingDelimiter!27@endingDelimiter!43@endingDelimiter!51@endingDelimiter!59@
+get|1|getNewPacket!50@
+mem|1|memfile!11@
+out|1|out!11@
+pre|1|previousfactor!51@
+rec|4|receiveClient!26@receiveBytes!50@receiveClient!50@receiveClient!34@
+res|2|resizingfactor!51@resized!19@
+sen|4|sendStart!50@sendClient!34@sendClient!58@sendClient!42@
+ser|10|serverAddr!43@serverPort!43@serverPort!27@serverAddr!51@serverAddr!59@serverPort!51@serverPort!35@serverAddr!35@serverPort!59@serverAddr!27@
+soc|5|socketClient!50@socketClient!58@socketClient!42@socketClient!34@socketClient!26@
+spl|4|splitDelimiter!51@splitDelimiter!27@splitDelimiter!43@splitDelimiter!59@
+str|5|stringToSend!42@stringToReceive!34@stringToSend!34@stringToReceive!26@stringToSend!58@
+tin|2|tinker!58@tinker!50@
+vid|1|videoStreamNumber!59@
+-- END TREE
+-- START TREE 2
+0
+-- END TREE

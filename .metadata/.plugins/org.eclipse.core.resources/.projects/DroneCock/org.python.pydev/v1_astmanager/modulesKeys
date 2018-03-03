@@ -1,0 +1,8 @@
+MODULES_MANAGER_V2
+Backup|C:\DroneShit\DroneCock\Backup.py
+Client|C:\DroneShit\DroneCock\Client.py
+ClientThermal|C:\DroneShit\DroneCock\ClientThermal.py
+ClientThermalRecv|C:\DroneShit\DroneCock\ClientThermalRecv.py
+ClientThermalRecvUpdate|C:\DroneShit\DroneCock\ClientThermalRecvUpdate.py
+ClientThermalUpdate|C:\DroneShit\DroneCock\ClientThermalUpdate.py
+Webcam|C:\DroneShit\DroneCock\Webcam.py

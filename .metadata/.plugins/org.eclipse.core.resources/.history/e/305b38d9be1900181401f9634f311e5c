@@ -1,0 +1,44 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.ServerSocket;
+import java.net.Socket;
+
+
+public class Server implements Runnable {
+
+	private ServerSocket serverSocket;
+
+	Thread serverThread = null;
+
+
+	public static final int SERVERPORT = 6000;
+
+
+	class ServerThread implements Runnable {
+
+			Socket socket = null;
+			
+			@Override
+			public void run() {
+				try {
+					serverSocket = new ServerSocket(SERVERPORT);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				while(true) {
+
+					try {
+						socket = serverSocket.accept();
+						
+
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+				
+			}
+		}
+	
+
+}
